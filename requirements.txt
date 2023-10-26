@@ -1,7 +1,7 @@
 accelerate==0.23.0
 sentencepiece==0.1.99
 torch==2.1.0
-transformers==4.33.3
+transformers==4.34.1
 fastapi== 0.103.2
 uvicorn==0.23.2
 pre-commit==3.4.0

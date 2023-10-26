@@ -7,6 +7,7 @@ from utils.logger import get_pylogger
 
 log = get_pylogger(__name__)
 
+
 class LLama(LanguageModel):
     r"""Class for generation answers for bot using LLM from huggingface repos."""
 
@@ -60,10 +61,10 @@ class LLama(LanguageModel):
             output_ids = self.model.generate(**data, generation_config=self.generation_config)
             output_ids = [
                 self.tokenizer.decode(
-                    o[len(data["input_ids"][0]):], skip_special_tokens=True
+                    o[len(data["input_ids"][0]) :], skip_special_tokens=True
                 ).strip()
                 for o in output_ids
             ]
             outputs = output_ids
-            log.debug('Outputs %s', outputs)
+            log.debug("Outputs %s", outputs)
             return outputs[0]
