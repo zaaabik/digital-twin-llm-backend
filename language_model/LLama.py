@@ -16,6 +16,7 @@ class LLama(LanguageModel):
         self,
         hf_token: str,
         model_name: str,
+        tokenizer_name: str,
         use_8_bit: bool = False,
         use_flash_attention_2: bool = False,
         adapter: str = "",
@@ -31,7 +32,7 @@ class LLama(LanguageModel):
         """
         login(hf_token)
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
 
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
@@ -84,4 +85,4 @@ class LLama(LanguageModel):
             ]
             outputs = output_ids
             log.debug("Outputs %s", outputs)
-            return outputs[0]
+            return outputs[0].replace("</s>", "")
