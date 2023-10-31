@@ -16,10 +16,10 @@ class LLama(LanguageModel):
         self,
         hf_token: str,
         model_name: str,
-        tokenizer_name: str,
         use_8_bit: bool = False,
         use_flash_attention_2: bool = False,
         adapter: str = "",
+        tokenizer_name: str = "",
     ):
         r"""
         Init class for generation answers for bot
@@ -32,6 +32,7 @@ class LLama(LanguageModel):
         """
         login(hf_token)
 
+        tokenizer_name = tokenizer_name or model_name
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
 
         self.model = AutoModelForCausalLM.from_pretrained(

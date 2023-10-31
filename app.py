@@ -19,9 +19,11 @@ MODEL_NAME = os.environ["MODEL_NAME"]
 USE_8_BIT = os.getenv("USE_8_BIT", "false") == "true"
 USE_FLASH_ATTENTION = os.getenv("USE_FLASH_ATTENTION", "false") == "true"
 ADAPTER = os.getenv("ADAPTER", "")
+TOKENIZER_NAME = os.getenv("TOKENIZER_NAME", "")
 print(f"USE_8_BIT: {USE_8_BIT}")
 print(f"ADAPTER: {ADAPTER}")
 print(f"USE_FLASH_ATTENTION: {USE_FLASH_ATTENTION}")
+print(f"TOKENIZER_NAME: {TOKENIZER_NAME}")
 
 log.info("Building LM model")
 lm: LanguageModel = LLama(
@@ -30,6 +32,7 @@ lm: LanguageModel = LLama(
     use_8_bit=USE_8_BIT,
     use_flash_attention_2=USE_FLASH_ATTENTION,
     adapter=ADAPTER,
+    tokenizer_name=TOKENIZER_NAME,
 )
 
 app = FastAPI()
