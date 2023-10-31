@@ -18,7 +18,9 @@ HF_TOKEN = os.environ["HF_TOKEN"]
 MODEL_NAME = os.environ["MODEL_NAME"]
 USE_8_BIT = os.getenv("USE_8_BIT", "false") == "true"
 USE_FLASH_ATTENTION = os.getenv("USE_FLASH_ATTENTION", "false") == "true"
+ADAPTER = os.getenv("ADAPTER", "")
 print(f"USE_8_BIT: {USE_8_BIT}")
+print(f"ADAPTER: {ADAPTER}")
 print(f"USE_FLASH_ATTENTION: {USE_FLASH_ATTENTION}")
 
 log.info("Building LM model")
@@ -27,6 +29,7 @@ lm: LanguageModel = LLama(
     model_name=MODEL_NAME,
     use_8_bit=USE_8_BIT,
     use_flash_attention_2=USE_FLASH_ATTENTION,
+    adapter=ADAPTER,
 )
 
 app = FastAPI()
@@ -39,7 +42,7 @@ def ping():
 
 
 class GenerateRequest(BaseModel):
-    text: str = ''
+    text: str = ""
 
 
 @app.post("/generate")

@@ -1,5 +1,6 @@
 import torch
 from huggingface_hub import login
+from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig
 
 from language_model.model import LanguageModel
@@ -17,12 +18,16 @@ class LLama(LanguageModel):
         model_name: str,
         use_8_bit: bool = False,
         use_flash_attention_2: bool = False,
+        adapter: str = "",
     ):
         r"""
         Init class for generation answers for bot
         Args:
             hf_token: hugging face token using for download model
             model_name: LLM model name
+            use_8_bit: load model in quantization mode
+            use_flash_attention_2: memory efficient attention
+            adapter: add adapter for base model
         """
         login(hf_token)
 
@@ -35,6 +40,9 @@ class LLama(LanguageModel):
             use_flash_attention_2=use_flash_attention_2,
             load_in_8bit=use_8_bit,
         )
+
+        if adapter:
+            self.model = PeftModel.from_pretrained(self.model, adapter)
 
         self.generation_config = GenerationConfig.from_pretrained(
             model_name, min_new_tokens=2, num_return_sequences=1
