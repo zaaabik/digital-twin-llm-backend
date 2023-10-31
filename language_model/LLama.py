@@ -85,4 +85,4 @@ class LLama(LanguageModel):
             ]
             outputs = output_ids
             log.debug("Outputs %s", outputs)
-            return outputs[0].replace("</s>", "")
+            return outputs[0].replace("</s>", "").replace("<s>", "")
