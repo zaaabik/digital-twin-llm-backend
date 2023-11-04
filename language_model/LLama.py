@@ -17,6 +17,7 @@ class LLama(LanguageModel):
         hf_token: str,
         model_name: str,
         use_8_bit: bool = False,
+        use_4_bit: bool = False,
         use_flash_attention_2: bool = False,
         adapter: str = "",
         tokenizer_name: str = "",
@@ -41,6 +42,7 @@ class LLama(LanguageModel):
             device_map="auto",
             use_flash_attention_2=use_flash_attention_2,
             load_in_8bit=use_8_bit,
+            load_in_4bit=use_4_bit,
         )
 
         if adapter:
