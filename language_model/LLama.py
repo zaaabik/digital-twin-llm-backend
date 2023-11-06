@@ -36,13 +36,19 @@ class LLama(LanguageModel):
         tokenizer_name = tokenizer_name or model_name
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
 
+        kwargs = {}
+
+        if use_flash_attention_2:
+            kwargs["use_flash_attention_2"] = True
+
+        if use_8_bit:
+            kwargs["load_in_8bit"] = True
+
+        if use_4_bit:
+            kwargs["load_in_4bit"] = True
+
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            torch_dtype=torch.float16,
-            device_map="auto",
-            use_flash_attention_2=use_flash_attention_2,
-            load_in_8bit=use_8_bit,
-            load_in_4bit=use_4_bit,
+            model_name, torch_dtype=torch.float16, device_map="auto", **kwargs
         )
 
         if adapter:

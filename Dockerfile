@@ -61,12 +61,13 @@ RUN apt update && pip3 install  -U --no-cache-dir \
 # Pytorch
 
 RUN pip3 install -U uvicorn==0.23.2 peft==0.5.0 bitsandbytes==0.41.1 transformers==4.34.1
+RUN pip3 install -U fastapi==0.103.2
 
 COPY . /app
 WORKDIR /app
 
-
 ARG HF_TOKEN
 ARG MODEL_NAME
-#RUN huggingface-cli download --token=${HF_TOKEN} ${MODEL_NAME}
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "52123"]
+
+RUN huggingface-cli download --token=${HF_TOKEN} ${MODEL_NAME}
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"]

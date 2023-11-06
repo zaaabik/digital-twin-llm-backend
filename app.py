@@ -23,6 +23,8 @@ USE_4_BIT = os.getenv("USE_4_BIT", "false") == "true"
 USE_FLASH_ATTENTION = os.getenv("USE_FLASH_ATTENTION", "false") == "true"
 ADAPTER = os.getenv("ADAPTER", "")
 TOKENIZER_NAME = os.getenv("TOKENIZER_NAME", "")
+print(f"MODEL_NAME: {MODEL_NAME}")
+print(f"HF_TOKEN: {MODEL_NAME}")
 print(f"USE_8_BIT: {USE_8_BIT}")
 print(f"ADAPTER: {ADAPTER}")
 print(f"USE_FLASH_ATTENTION: {USE_FLASH_ATTENTION}")
