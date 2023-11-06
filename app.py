@@ -6,9 +6,7 @@ import os
 
 from fastapi import FastAPI
 
-# pylint: disable=no-name-in-module
-from pydantic import BaseModel
-
+from data.models import GenerateRequest, GenerationResponse
 from language_model.LLama import LLama
 from language_model.model import LanguageModel
 from utils.logger import get_pylogger
@@ -50,15 +48,6 @@ def ping():
     return {"ping": "pong"}
 
 
-class GenerateRequest(BaseModel):
-    r"""
-    Request body for generation
-    Args:
-        text: context for LLM model
-    """
-    text: str = ""
-
-
 @app.post("/generate")
 def generate(generate_request: GenerateRequest):
     r"""
@@ -66,5 +55,6 @@ def generate(generate_request: GenerateRequest):
     Args:
         generate_request: text using for generation
     """
-    model_response = lm.generate(generate_request.text)
-    return {"generated_text": model_response}
+    model_responses = lm.generate(generate_request.text)
+
+    return GenerationResponse(texts=model_responses)

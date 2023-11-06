@@ -64,7 +64,7 @@ class LLama(LanguageModel):
         """
         return tuple(self.tokenizer([word], add_special_tokens=False).input_ids[0])
 
-    def generate(self, context: str) -> str:
+    def generate(self, context: str) -> list[str]:
         r"""
         Return token ids
         Args:
@@ -76,11 +76,12 @@ class LLama(LanguageModel):
             data = {k: v.to(self.model.device) for k, v in data.items()}
             output_ids = self.model.generate(**data, generation_config=self.generation_config)
             output_ids = [
-                self.tokenizer.decode(
-                    o[len(data["input_ids"][0]) :], skip_special_tokens=True
-                ).strip()
+                self.tokenizer.decode(o[len(data["input_ids"][0]) :], skip_special_tokens=True)
+                .strip()
+                .replace("</s>", "")
+                .replace("<s>", "")
                 for o in output_ids
             ]
             outputs = output_ids
             log.debug("Outputs %s", outputs)
-            return outputs[0].replace("</s>", "").replace("<s>", "")
+            return outputs

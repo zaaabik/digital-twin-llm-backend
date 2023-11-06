@@ -7,5 +7,9 @@ class LanguageModel(ABC):
     tokenizer: PreTrainedTokenizer = None
 
     @abstractmethod
-    def generate(self, context) -> str:
-        pass
+    def generate(self, context: str) -> list[str]:
+        r"""
+        Return token ids
+        Args:
+            context: whole dialog using for generation answer
+        """
