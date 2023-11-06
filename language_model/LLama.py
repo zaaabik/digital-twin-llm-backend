@@ -54,18 +54,7 @@ class LLama(LanguageModel):
         if adapter:
             self.model = PeftModel.from_pretrained(self.model, adapter)
 
-        self.generation_config = GenerationConfig(
-            bos_token_id=1,
-            eos_token_id=2,
-            max_new_tokens=256,
-            no_repeat_ngram_size=25,
-            num_beams=3,
-            num_return_sequences=1,
-            pad_token_id=0,
-            repetition_penalty=1.2,
-            transformers_version="4.34.0",
-            min_new_tokens=2,
-        )
+        self.generation_config = GenerationConfig.from_pretrained(model_name)
 
     def get_tokens_as_tuple(self, word: str):
         r"""
