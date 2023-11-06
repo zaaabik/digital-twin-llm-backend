@@ -4,6 +4,7 @@ from __future__ import annotations
 import logging
 import os
 
+import uvicorn
 from fastapi import FastAPI
 
 # pylint: disable=no-name-in-module
@@ -49,6 +50,11 @@ def ping():
 
 
 class GenerateRequest(BaseModel):
+    r"""
+    Request body for generation
+    Args:
+        text: context for LLM model
+    """
     text: str = ""
 
 
@@ -61,3 +67,7 @@ def generate(generate_request: GenerateRequest):
     """
     model_response = lm.generate(generate_request.text)
     return {"generated_text": model_response}
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=52123, workers=2)  # nosec B104
