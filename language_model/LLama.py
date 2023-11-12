@@ -55,6 +55,15 @@ class LLama(LanguageModel):
             self.model = PeftModel.from_pretrained(self.model, adapter)
 
         self.generation_config = GenerationConfig.from_pretrained(model_name)
+        self.generation_config = GenerationConfig(
+            **{
+                "do_sample": True,
+                "max_length": 256,
+                "pad_token_id": 0,
+                "temperature": 0.8,
+                "top_p": 0.8,
+            }
+        )
 
     def get_tokens_as_tuple(self, word: str):
         r"""
